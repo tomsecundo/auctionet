@@ -21,7 +21,7 @@ describe('AddTask Function Test', () => {
     // Mock request data
     const req = {
       user: { id: new mongoose.Types.ObjectId() },
-      body: { title: "New Task", description: "Task description", deadline: "2025-12-31" }
+      body: { title: "New Task", description: "Task description", startingPrice: "100",deadline: "2025-12-31" }
     };
 
     // Mock task that would be created
@@ -55,7 +55,7 @@ describe('AddTask Function Test', () => {
     // Mock request data
     const req = {
       user: { id: new mongoose.Types.ObjectId() },
-      body: { title: "New Task", description: "Task description", deadline: "2025-12-31" }
+      body: { title: "New Task", description: "Task description", startingPrice: "100", deadline: "2025-12-31" }
     };
 
     // Mock response object
@@ -87,6 +87,7 @@ describe('Update Function Test', () => {
       _id: taskId,
       title: "Old Task",
       description: "Old Description",
+      startingPrice: 100,
       completed: false,
       deadline: new Date(),
       save: sinon.stub().resolvesThis(), // Mock save method

@@ -4,9 +4,10 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Tasks from './pages/Tasks';
+import Auction from './pages/Auction';
 
 function App() {
-  return (
+  return (   
     <Router>
       <Navbar />
       <Routes>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/tasks" element={<Tasks />} />
+        <Route path="/auction" element={<Auction />} />
       </Routes>
     </Router>
   );
