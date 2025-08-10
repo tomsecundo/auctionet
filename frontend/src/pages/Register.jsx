@@ -43,7 +43,7 @@ const Register = () => {
           className="w-full mb-4 p-2 border rounded"
         />
         <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
-          Register
+          Join now
         </button>
       </form>
     </div>

@@ -12,12 +12,21 @@ const Navbar = () => {
 
   return (
     <nav className="bg-pink-600 text-white p-4 flex justify-between items-center">
-      <Link to="/" className="text-2xl font-bold">Auctionet</Link>
+      
+          
+       
+      <Link to="/" className="text-2xl font-bold text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
+        <div className="flex items-center">
+        <img src="https://img.freepik.com/free-vector/illustration-law-concept_53876-5911.jpg" alt="Your Company" className="h-8 w-auto" /> Auctionet
+        </div>
+      </Link>
       <div>
         {user ? (
           <>
-            <Link to="/tasks" className="mr-4">CRUD</Link>
-            <Link to="/profile" className="mr-4">Profile</Link>
+      
+            <Link to="/auction" className="mr-4 group text-white transition duration-300 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Auction Room</Link>
+            <Link to="/tasks" className="mr-4 group text-white transition duration-300 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">My Listed Items</Link>
+            <Link to="/profile" className="mr-4 group text-white transition duration-300 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Profile</Link>
             <button
               onClick={handleLogout}
               className="bg-red-500 px-4 py-2 rounded hover:bg-red-700"

@@ -98,12 +98,12 @@ export const TaskProvider = ({ children }) => {
   }, [user, request]);
 
   const addTask = useCallback(
-    async ({ title, description, deadline }) => {
+    async ({ title, description, startingPrice, deadline }) => {
       dispatch({ type: 'START' });
       try {
         const data = await request('tasks', {
           method: 'POST',
-          body: JSON.stringify({ title, description, deadline }),
+          body: JSON.stringify({ title, description, startingPrice, deadline }),
         });
         dispatch({ type: 'ADD', payload: data });
         return data;

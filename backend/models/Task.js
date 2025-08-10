@@ -8,6 +8,12 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    winnerId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+      index: true,
+    },
     title: {
       type: String,
       required: [true, 'Title is required'],
@@ -20,11 +26,10 @@ const TaskSchema = new mongoose.Schema(
       maxlength: [5000, 'Description is too long'],
       default: '',
     },
-    price: {
-      type: String,
-      trim: true,
-      min: [1, 'Cannot be zero'],
-      required: true,
+    startingPrice: {
+      type: Number,
+      required: [true, 'Starting price is required'],
+      min: [1, 'Starting price cannot be negative'],
     },
     completed: {
       type: Boolean,
@@ -74,16 +79,3 @@ TaskSchema.pre('validate', function normalizeDeadline(next) {
 });
 
 module.exports = mongoose.model('Task', TaskSchema);
-
-
-// const mongoose = require('mongoose');
-
-// const taskSchema = new mongoose.Schema({
-//     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-//     title: { type: String, required: true },
-//     description: { type: String },
-//     completed: { type: Boolean, default: false },
-//     deadline: { type: Date },
-// });
-
-// module.exports = mongoose.model('Task', taskSchema);

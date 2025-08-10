@@ -1,5 +1,14 @@
 const Task = require('../models/Task');
 
+const getAuction = async (req, res) => {
+    try {
+        const tasks = await Task.find({ userId: { $ne: req.user.id }});
+        res.json(tasks);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+  };
+
 const getTasks = async (req,res) => {
     try {
         const tasks = await Task.find({ userId: req.user.id });
@@ -46,4 +55,4 @@ const deleteTask = async (req,res) => {
     }
 };
 
-module.exports = { getTasks, addTask, updateTask, deleteTask };
+module.exports = { getAuction, getTasks, addTask, updateTask, deleteTask };

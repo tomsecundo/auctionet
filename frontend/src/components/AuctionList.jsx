@@ -1,7 +1,7 @@
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
 
-const TaskList = ({ tasks, setTasks, setEditingTask }) => {
+const AuctionList = ({ tasks, setTasks, setEditingTask }) => {
   const { user } = useAuth();
 
   const handleDelete = async (taskId) => {
@@ -21,20 +21,20 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
         <div key={task._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
           <h2 className="font-bold">{task.title}</h2>
           <p>{task.description}</p>
-          <p>$ {task.startingPrice}</p>
+          <p>Highest Offer: $ {task.startingPrice}</p>
           <p className="text-sm text-gray-500">Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
           <div className="mt-2">
             <button
               onClick={() => setEditingTask(task)}
-              className="mr-2 bg-yellow-500 text-white px-4 py-2 rounded"
+              className="mr-2 bg-orange-500 text-white px-4 py-2 rounded"
             >
-              Edit
+              Raise Bid
             </button>
             <button
               onClick={() => handleDelete(task._id)}
-              className="bg-red-500 text-white px-4 py-2 rounded"
+              className="bg-pink-500 text-white px-4 py-2 rounded"
             >
-              Delete
+              Cancel Bid
             </button>
           </div>
         </div>
@@ -43,4 +43,4 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   );
 };
 
-export default TaskList;
+export default AuctionList;
