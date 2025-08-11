@@ -16,7 +16,7 @@ const Auction  = () => {
         });
         setTasks(response.data);
       } catch (error) {
-        alert(error);
+        alert("get auction items: "  + error);
       }
     };
 

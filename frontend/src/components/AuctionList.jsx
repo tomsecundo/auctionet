@@ -11,7 +11,7 @@ const AuctionList = ({ tasks, setTasks, setEditingTask }) => {
       });
       setTasks(tasks.filter((task) => task._id !== taskId));
     } catch (error) {
-      alert(error);
+      alert("delete bid: " + error);
     }
   };
 
@@ -28,12 +28,20 @@ const AuctionList = ({ tasks, setTasks, setEditingTask }) => {
               onClick={() => setEditingTask(task)}
               className="mr-2 bg-orange-500 text-white px-4 py-2 rounded"
             >
-              Raise Bid
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
+              </svg>
+
+          Raise Bid
             </button>
             <button
               onClick={() => handleDelete(task._id)}
               className="bg-pink-500 text-white px-4 py-2 rounded"
             >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>
+
               Cancel Bid
             </button>
           </div>

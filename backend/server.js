@@ -1,4 +1,3 @@
-
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
@@ -9,7 +8,13 @@ dotenv.config();
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3000',  // Your React app's domain or localhost:3000 during dev
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],  // Make sure 'Authorization' is allowed
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/tasks', require('./routes/taskRoutes'));
