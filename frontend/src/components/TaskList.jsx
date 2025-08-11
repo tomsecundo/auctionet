@@ -5,14 +5,16 @@ import axiosInstance from '../axiosConfig';
 const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   const { user } = useAuth();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [taskIdToDelete, setTaskIdToDelete] = useState(null);  // Store task id to delete
+  const [taskId, setTaskIdToDelete] = useState(null);  // Store task id to delete
 
   const handleDelete = async () => {
     try {
-      await axiosInstance.delete(`/api/tasks/${taskIdToDelete}`, {
+      await axiosInstance.delete(`/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setTasks(tasks.filter((task) => task._id !== taskIdToDelete)); // Update task list
+      
+      setTasks(tasks.filter((task) => task.id !== taskId));
+    
       setShowDeleteModal(false);  // Close the modal after deletion
     } catch (error) {
       alert("delete item: " + error);
@@ -32,7 +34,7 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
+        <div key={task.id} className="bg-gray-100 p-4 mb-4 rounded shadow">
           <h2 className="font-bold">{task.title}</h2>
           <p>{task.description}</p>
           <p>$ {task.startingPrice}</p>
@@ -47,7 +49,7 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
               </svg>
             </button>
             <button
-              onClick={() => openDeleteModal(task._id)} // Open the modal with the task ID
+              onClick={() => openDeleteModal(task.id)} // Open the modal with the task ID
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
