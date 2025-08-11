@@ -12,7 +12,7 @@ const getAuction = async (req, res) => {
 const getTasks = async (req,res) => {
     try {
         const tasks = await Task.find({ userId: req.user.id });
-        console.log(tasks);
+        
         res.json(tasks);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -34,17 +34,19 @@ const addTask = async (req,res) => {
 };
 
 const updateTask = async (req,res) => {
-    const { title, description, completed, deadline } = req.body;
+    const { title, description, startingPrice, completed, deadline } = req.body;
     try {
         const task = await Task.findById(req.params.id);
         if (!task) return res.status(404).json({ message: 'Task not found' });
         task.title = title || task.title;
         task.description = description || task.description;
+        task.startingPrice = startingPrice || task.startingPrice;
         task.completed = completed ?? task.completed;
         task.deadline = deadline || task.deadline;
         const updatedTask = await task.save();
         res.json(updatedTask);
     } catch (error) {
+        console.error(error);
         res.status(500).json({ message: error.message });
     }
 };

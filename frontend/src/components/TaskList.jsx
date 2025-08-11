@@ -3,13 +3,14 @@ import axiosInstance from '../axiosConfig';
 
 const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   const { user } = useAuth();
-
+ 
   const handleDelete = async (taskId) => {
     try {
       await axiosInstance.delete(`/api/tasks/${taskId}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       });
-      setTasks(tasks.filter((task) => task._id !== taskId));
+      
+      setTasks(tasks.filter((task) => task.id !== taskId));
     } catch (error) {
       alert("delete item: " + error);
     }
@@ -18,11 +19,11 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
   return (
     <div>
       {tasks.map((task) => (
-        <div key={task._id} className="bg-gray-100 p-4 mb-4 rounded shadow">
-          <h2 className="font-bold">{task.title + " " + task._id}</h2>
+        <div key={task.id} className="bg-gray-100 p-4 mb-4 rounded shadow">
+          <h2 className="font-bold">{task.title}</h2>
           <p>{task.description}</p>
           <p>$ {task.startingPrice}</p>
-          <p className="text-sm text-gray-500">Deadline: {new Date(task.deadline).toLocaleDateString()}</p>
+          <p className="text-sm text-gray-500">Closing Date: {new Date(task.deadline).toLocaleDateString()}</p>
           <div className="mt-2">
             <button
               onClick={() => setEditingTask(task)}
@@ -35,7 +36,7 @@ const TaskList = ({ tasks, setTasks, setEditingTask }) => {
 
             </button>
             <button
-              onClick={() => handleDelete(task._id)}
+              onClick={() => handleDelete(task.id)}
               className="bg-red-500 text-white px-4 py-2 rounded"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">

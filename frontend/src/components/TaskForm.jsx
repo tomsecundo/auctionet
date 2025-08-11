@@ -24,16 +24,18 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
     e.preventDefault();
     try {
       if (editingTask) {
-        const response = await axiosInstance.put(`/api/tasks/${editingTask._id}`, formData, {
+        const response = await axiosInstance.put(`/api/tasks/${editingTask.id}`, formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
-        setTasks(tasks.map((task) => (task._id === response.data._id ? response.data : task)));
+        
+        setTasks(tasks.map((task) => (task.id === response.data.id ? response.data : task)));
       } else {
         const response = await axiosInstance.post('/api/tasks', formData, {
           headers: { Authorization: `Bearer ${user.token}` },
         });
         setTasks([...tasks, response.data]);
       }
+
       setEditingTask(null);
       setFormData({ title: '', description: '', deadline: '' });
     } catch (error) {

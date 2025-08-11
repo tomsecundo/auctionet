@@ -26,6 +26,14 @@ const Tasks = () => {
     fetchTasks();
   }, [user]);
 
+  useEffect(() => {
+    if (editingTask) {
+      setShowTaskForm(true);
+    } else {
+      setShowTaskForm(false);
+    }
+  }, [editingTask]);
+  
   const toggleTaskForm = () => setShowTaskForm(!showTaskForm); // Toggle TaskForm visibility
 
   return (
@@ -50,6 +58,7 @@ const Tasks = () => {
 
       {/* TaskList Component */}
       <TaskList tasks={tasks} setTasks={setTasks} setEditingTask={setEditingTask} />
+      
     </div>
   );
 };
