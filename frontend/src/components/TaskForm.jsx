@@ -5,6 +5,7 @@ import axiosInstance from '../axiosConfig';
 const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ title: '', description: '', startingPrice: '', deadline: '' });
+  //const [formData, setFormData] = useState({ title: '', description: '', deadline: '' });
 
   useEffect(() => {
     if (editingTask) {
@@ -34,9 +35,9 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         setTasks([...tasks, response.data]);
       }
       setEditingTask(null);
-      setFormData({ title: '', description: '', startingPrice: '', deadline: '' });
+      setFormData({ title: '', description: '', deadline: '' });
     } catch (error) {
-      alert(error); 
+      alert(error);
     }
   };
 
@@ -71,8 +72,9 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
-      <button type="submit" className="w-full bg-blue-600 text-white p-2 rounded">
+      <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
         {editingTask ? 'Save' : 'Post'}
+        
       </button>
     </form>
   );

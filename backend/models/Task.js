@@ -8,12 +8,6 @@ const TaskSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
-    winnerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-      index: true,
-    },
     title: {
       type: String,
       required: [true, 'Title is required'],
@@ -27,9 +21,9 @@ const TaskSchema = new mongoose.Schema(
       default: '',
     },
     startingPrice: {
-      type: Number,
+      type: String,
       required: [true, 'Starting price is required'],
-      min: [1, 'Starting price cannot be negative'],
+      // min: [1, 'Starting price cannot be negative'],
     },
     completed: {
       type: Boolean,
@@ -70,12 +64,12 @@ TaskSchema.virtual('isOverdue').get(function isOverdue() {
 TaskSchema.index({ userId: 1, completed: 1, deadline: 1 });
 
 // Optional: normalize string deadlines if clients send them
-TaskSchema.pre('validate', function normalizeDeadline(next) {
-  if (typeof this.deadline === 'string' && this.deadline.trim()) {
-    const d = new Date(this.deadline);
-    if (!isNaN(d.valueOf())) this.deadline = d;
-  }
-  next();
-});
+// TaskSchema.pre('validate', function normalizeDeadline(next) {
+//   if (typeof this.deadline === 'string' && this.deadline.trim()) {
+//     const d = new Date(this.deadline);
+//     if (!isNaN(d.valueOf())) this.deadline = d;
+//   }
+//   next();
+// });
 
 module.exports = mongoose.model('Task', TaskSchema);

@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 const generateToken = (id) => {
+    
     return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 };
 
@@ -25,7 +26,10 @@ const loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ email });
         if (user && (await bcrypt.compare(password, user.password))) {
-            res.json({ id: user.id, name: user.name, email: user.email, token: generateToken(user.id) });
+            api_token = generateToken(user.id);
+            console.log("generate token: " + api_token);
+            res.json({ id: user.id, name: user.name, email: user.email, token: api_token });
+            //alert(generateToken(user.id));
         } else {
             res.status(401).json({ message: 'Invalid email or password' });
         }
