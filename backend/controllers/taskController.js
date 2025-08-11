@@ -25,7 +25,7 @@ const addTask = async (req,res) => {
         try {
             
             const task = await Task.create({ userId: req.user.id, title, description, startingPrice, deadline });
-            //alert("post data: " + req.body.startingPrice);
+            
             res.status(201).json(task);
         } catch (error) {
             console.error('Error creating task:', error);
