@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 import TaskForm from '../components/TaskForm';
 import TaskList from '../components/TaskList';
@@ -9,6 +10,7 @@ const Tasks = () => {
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
   const [showTaskForm, setShowTaskForm] = useState(false); // Manage visibility of TaskForm
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -19,6 +21,7 @@ const Tasks = () => {
         console.log("response data: " + response.data);
         setTasks(response.data);
       } catch (error) {
+        navigate('/');
         alert('Failed to fetch tasks.');
       }
     };

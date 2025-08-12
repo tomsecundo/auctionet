@@ -40,6 +40,11 @@ const TaskSchema = new mongoose.Schema(
         message: 'Deadline must be a valid date',
       },
     },
+    bids: {
+      type: Map,
+      of: String,
+      default: {},
+    },
   },
   {
     timestamps: true, // adds createdAt, updatedAt

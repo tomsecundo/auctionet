@@ -65,4 +65,60 @@ const deleteTask = async (req,res) => {
     }
 };
 
-module.exports = { getAuction, getTasks, addTask, updateTask, deleteTask };
+const addBid = async (req, res) => {
+    const { taskId, offeredAmount } = req.body;
+  
+    try {
+      const task = await Task.findById(taskId);
+
+      if (!task) {
+        return res.status(404).json({ message: 'Task not found' });
+      }
+  
+      if (isNaN(offeredAmount) || parseFloat(offeredAmount) <= 0) {
+        return res.status(400).json({ message: 'Offered amount must be a positive number' });
+      }
+      //alert(req.user.id);
+      // Add the bid to the bids map (keyed by userId)
+      task.bids.set(req.user.id.toString(), offeredAmount);
+
+      await task.save();
+      res.status(200).json({ message: 'Bid added successfully', task });
+    } catch (error) {
+      console.error('Error adding bid:', error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
+  const cancelBid = async (req, res) => {
+    const { taskId } = req.params; // Extract taskId from URL
+    const { userId } = req.body;  // Extract userId from the request body
+    
+    try {
+      // Find the task by its ID
+      
+      const task = await Task.findById(taskId);
+      if (!task) {
+        return res.status(404).json({ message: 'Task not found' });
+      }
+      console.log(task.bids.has(userId));
+      // Check if the user has placed a bid
+      if (task.bids.has(userId)) {
+        // Remove the user's bid from the task
+        console.log("here");
+        task.bids.delete(userId);
+  
+        // Save the updated task
+        await task.save();
+  
+        return res.status(200).json({ message: 'Bid canceled successfully', task });
+      } else {
+        return res.status(400).json({ message: 'No bid found to cancel' });
+      }
+    } catch (error) {
+      console.error('Error canceling bid:', error);
+      return res.status(500).json({ message: 'Internal Server Error' });
+    }
+  };
+
+module.exports = { getAuction, getTasks, addTask, updateTask, deleteTask, addBid, cancelBid };
