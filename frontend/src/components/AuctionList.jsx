@@ -30,7 +30,7 @@ const handleBidSubmit = async (e) => {
   }
   
   try {
-    const response = await axiosInstance.put(`/api/auction/${taskIdToBid}`, {
+      const response = await axiosInstance.put(`/api/auction/${taskIdToBid}`, {
       taskId: taskIdToBid,
       offeredAmount: bidAmount,
     }, {
