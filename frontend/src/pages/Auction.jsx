@@ -24,9 +24,16 @@ const Auction  = () => {
   }, [user]);
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Happy bidding!</h1>
-      <AuctionList tasks={tasks} setTasks={setTasks} setEditingTask={setEditingTask} />
+   
+    <div className="container mx-auto p-6 flex flex-col items-center justify-start h-screen">
+        <h1 className="text-4xl font-extrabold text-center bg-gradient-to-r from-yellow-400 via-red-500 to-pink-500 bg-clip-text text-transparent drop-shadow-lg mb-6">
+          The Auction Starts Here – Ready, Set, Bid!
+        </h1>
+        <AuctionList
+          tasks={tasks}
+          setTasks={setTasks}
+          setEditingTask={setEditingTask}
+        />
     </div>
   );
 };

@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import axiosInstance from '../axiosConfig';
+import Modal from '../pages/Modal';
 
 const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({ title: '', description: '', startingPrice: '', deadline: '' });
   //const [formData, setFormData] = useState({ title: '', description: '', deadline: '' });
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   useEffect(() => {
     if (editingTask) {
@@ -37,12 +41,15 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
       }
 
       setEditingTask(null);
-      setFormData({ title: '', description: '', deadline: '' });
+      setFormData({ title: '', description: '', startingPrice: '', deadline: '' });
     } catch (error) {
-      alert(error);
+      setModalMessage("Oh, you forgot something! Try again!");
+      setModalOpen(true);
     }
   };
-
+  const closeModal = () => {
+    setModalOpen(false); // Close modal
+  };
   return (
     <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded mb-6">
       <h1 className="text-2xl font-bold mb-4">{editingTask ? 'Edit Item Details' : 'Post an item for auction'}</h1>
@@ -74,10 +81,11 @@ const TaskForm = ({ tasks, setTasks, editingTask, setEditingTask }) => {
         onChange={(e) => setFormData({ ...formData, deadline: e.target.value })}
         className="w-full mb-4 p-2 border rounded"
       />
-      <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
+      <button type="submit" className="w-full bg-pink-600 text-white p-2 rounded">
         {editingTask ? 'Save' : 'Post'}
         
       </button>
+      <Modal message={modalMessage} isOpen={isModalOpen} onClose={closeModal} />
     </form>
   );
 };
