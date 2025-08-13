@@ -69,11 +69,10 @@ jobs:
         cd ./backend
         touch .env
         echo "${{ secrets.PROD }}" > .env
-    - name: Stop and Start PM2 Processes (if any)
-      run: |
+    - run: |
         pm2 list || true  # Check if any processes are running (won't fail)
-        pm2 stop all || true  # Stop all PM2 processes, ignore errors if no processes are found
         pm2 start all || true  # Start all PM2 processes, ignore errors if no processes are found
+
 
     # - run: pm2 start all
 
