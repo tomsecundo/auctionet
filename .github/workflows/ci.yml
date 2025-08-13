@@ -22,7 +22,6 @@ jobs:
     - name: Set CI environment variable to false
       run: echo "CI=false" >> $GITHUB_ENV
 
-    
 
     # Set up Node.js
     - name: Setup Node.js
@@ -60,7 +59,21 @@ jobs:
         yarn install
         sudo rm -rf ./build
         yarn run build
-
+    - name: Test MongoDB Connection
+      run: |
+        # Run a simple script to check MongoDB connection
+        node -e "
+          const mongoose = require('mongoose');
+          mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+            .then(() => {
+              console.log('MongoDB connected successfully');
+              process.exit(0);  # Exit with success
+            })
+            .catch(err => {
+              console.error('MongoDB connection failed:', err);
+              process.exit(1);  # Exit with error if connection fails
+            });
+        "
     # Run backend tests
     - name: Run Backend Tests
       env:
@@ -83,4 +96,4 @@ jobs:
 
     # - run: pm2 start all
 
-    #- run: pm2 restart all
+    run: pm2 restart all
