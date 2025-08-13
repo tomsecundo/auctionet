@@ -14,12 +14,13 @@ jobs:
       matrix:
         node-version: [22]  # Test on multiple Node.js versions
 
+    environment: MONGO_URI
+
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
-    - name: Stop all PM2 processes (if any)
-      run: |
-        pm2 stop all || true  # Ignore if no processes are found
+
+    
 
     # Set up Node.js
     - name: Setup Node.js
@@ -36,6 +37,10 @@ jobs:
         echo "Secret 1 is: $MONGO_URI"
         echo "Secret 2 is: $JWT_SECRET"
         echo "Secret 3 is: $PORT"
+        
+    - name: Stop all PM2 processes (if any)
+      run: |
+        pm2 stop all || true  # Ignore if no processes are found
 
     # Install dependencies for backend
     - name: Install Backend Dependencies
@@ -46,13 +51,13 @@ jobs:
         yarn install
 
     # Install dependencies for frontend
-    # - name: Install Frontend Dependencies
-    #   working-directory: ./frontend
-    #   run: |
-    #     df -h
-    #     yarn install
-    #     sudo rm -rf ./build
-    #     yarn run build
+    - name: Install Frontend Dependencies
+      working-directory: ./frontend
+      run: |
+        df -h
+        yarn install
+        sudo rm -rf ./build
+        yarn run build
 
     # Run backend tests
     - name: Run Backend Tests
