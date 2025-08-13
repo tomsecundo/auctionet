@@ -9,6 +9,9 @@ jobs:
   test:
     name: Run Tests
     runs-on: self-hosted
+    steps:
+      - name: Set CI environment variable to false
+        run: echo "CI=false" >> $GITHUB_ENV
 
     strategy:
       matrix:
@@ -37,7 +40,7 @@ jobs:
         echo "Secret 1 is: $MONGO_URI"
         echo "Secret 2 is: $JWT_SECRET"
         echo "Secret 3 is: $PORT"
-        
+
     - name: Stop all PM2 processes (if any)
       run: |
         pm2 stop all || true  # Ignore if no processes are found
