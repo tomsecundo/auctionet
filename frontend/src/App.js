@@ -5,8 +5,6 @@ import Register from './pages/Register';
 import Profile from './pages/Profile';
 import Tasks from './pages/Tasks';
 import Auction from './pages/Auction';
-import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (   

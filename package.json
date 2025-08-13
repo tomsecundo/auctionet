@@ -29,7 +29,6 @@
   "dependencies": {
     "cookie-parser": "^1.4.7",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1",
-    "react-toastify": "^11.0.5"
+    "react-dom": "^19.1.1"
   }
 }

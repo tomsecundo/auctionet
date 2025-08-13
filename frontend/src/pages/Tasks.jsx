@@ -22,7 +22,6 @@ const Tasks = () => {
         setTasks(response.data);
       } catch (error) {
         navigate('/');
-        alert('Failed to fetch tasks.');
       }
     };
 

@@ -100,13 +100,13 @@ return (
           <span className="font-semibold">Closing Date:</span> {new Date(task.deadline).toLocaleDateString()}
         </p>
         
-        <div className="mt-4">
+        <div className="mt-4 flex">
           {/* Check if the user already placed a bid */}
           {task.bids[user.id] ? (
             <>
               <button
                 onClick={() => openBidModal(task.id)}
-                className="mr-2 bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-700"
+                className="mr-2 bg-orange-500 text-white px-4 py-2 flex rounded hover:bg-orange-700"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941" />
@@ -117,7 +117,7 @@ return (
               {/* Cancel Bid button */}
               <button 
                 onClick={() => handleCancelBid(task.id)}
-                className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-700"
+                className="bg-red-500 text-white px-4 py-2 flex rounded hover:bg-red-700"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 flex items-center justify-center">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
@@ -130,7 +130,7 @@ return (
             // If no bid from the user, show "Place Bid"
             <button
               onClick={() => openBidModal(task.id)}
-              className="mr-2 bg-lime-500 text-white px-4 py-2 rounded hover:bg-lime-700"
+              className="mr-2 bg-pink-500 text-white px-4 py-2 flex rounded hover:bg-pink-700"
             >
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
