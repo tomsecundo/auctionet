@@ -2,23 +2,30 @@ import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
+import Modal from './Modal';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axiosInstance.post('/api/auth/login', formData);
       login(response.data);
-      navigate('/');
+      navigate('/tasks');
     } catch (error) {
-      alert('Login failed. Please try again.');
+      setModalMessage('Invalid email or password.');
+      setModalOpen(true); 
     }
   };
-
+  const closeModal = () => {
+    setModalOpen(false); // Close modal
+  };
   return (
     <div className="max-w-md mx-auto mt-20">
       <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded">
@@ -43,6 +50,7 @@ const Login = () => {
         </svg>
       </button>
       </form>
+      <Modal message={modalMessage} isOpen={isModalOpen} onClose={closeModal} /> 
     </div>
   );
 };

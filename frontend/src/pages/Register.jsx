@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
+import Modal from './Modal';
 
 const Register = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -13,10 +16,13 @@ const Register = () => {
       alert('Registration successful. Please log in.');
       navigate('/login');
     } catch (error) {
-      alert('Registration failed. Please try again.');
+      setModalMessage("That didn't work! Try again!");
+      setModalOpen(true);
     }
   };
-
+  const closeModal = () => {
+    setModalOpen(false); // Close modal
+  };
   return (
     <div className="max-w-md mx-auto mt-20">
       <form onSubmit={handleSubmit} className="bg-white p-6 shadow-md rounded">
@@ -42,10 +48,11 @@ const Register = () => {
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
           className="w-full mb-4 p-2 border rounded"
         />
-        <button type="submit" className="w-full bg-green-600 text-white p-2 rounded">
+        <button type="submit" className="w-full bg-pink-600 text-white p-2 rounded">
           Join now
         </button>
       </form>
+      <Modal message={modalMessage} isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 };

@@ -67,23 +67,39 @@ const deleteTask = async (req,res) => {
 
 const addBid = async (req, res) => {
     const { taskId, offeredAmount } = req.body;
-  
+
     try {
       const task = await Task.findById(taskId);
 
       if (!task) {
         return res.status(404).json({ message: 'Task not found' });
       }
-  
-      if (isNaN(offeredAmount) || parseFloat(offeredAmount) <= 0) {
+      
+      if (isNaN(offeredAmount)) {
         return res.status(400).json({ message: 'Offered amount must be a positive number' });
       }
-      //alert(req.user.id);
-      // Add the bid to the bids map (keyed by userId)
+      if (parseFloat(offeredAmount) <= 0) {
+        return res.status(400).json({ message: 'Offered amount must be a positive number' });
+      }
+      
+      const values = task.bids.values().map(Number);
+      console.log(values);
+
+      // Get the second value from the array (index 1)
+      const highestBid = Math.max(...values);
+      console.log('Second value in details:', highestBid);
+             
+      console.log(offeredAmount + " highest: " + highestBid);
+
+      if (parseFloat(offeredAmount) < parseFloat(highestBid)) {
+        return res.status(404).json({ message: 'Must be higher!' });
+      }
+
       task.bids.set(req.user.id.toString(), offeredAmount);
 
       await task.save();
       res.status(200).json({ message: 'Bid added successfully', task });
+      console.log("success");
     } catch (error) {
       console.error('Error adding bid:', error);
       res.status(500).json({ message: 'Internal Server Error' });
