@@ -9,7 +9,7 @@ jobs:
   test:
     name: Run Tests
     runs-on: self-hosted
-    steps:
+ 
       - name: Set CI environment variable to false
         run: echo "CI=false" >> $GITHUB_ENV
 
@@ -22,6 +22,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+    - name: Set CI environment variable to false
+        run: echo "CI=false" >> $GITHUB_ENV
 
     
 
