@@ -21,6 +21,9 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+    - name: Stop all PM2 processes (if any)
+      run: |
+        pm2 stop all || true  # Ignore if no processes are found
 
     # Set up Node.js
     - name: Setup Node.js
@@ -38,8 +41,6 @@ jobs:
         echo "Secret 1 is: $MONGO_URI"
         echo "Secret 2 is: $JWT_SECRET"
         echo "Secret 3 is: $PORT"
-      
-    - run: pm2 stop all
 
     # Install dependencies for backend
     - name: Install Backend Dependencies
