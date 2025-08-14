@@ -80,6 +80,6 @@ jobs:
         pm2 start all || true  # Start all PM2 processes, ignore errors if no processes are found
 
 
-    #- run: pm2 start all
+    - run: pm2 start all || true
 
     - run: pm2 restart all
