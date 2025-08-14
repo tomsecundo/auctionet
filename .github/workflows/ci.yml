@@ -79,6 +79,9 @@ jobs:
         pm2 list || true  # Check if any processes are running (won't fail)
 
     - run: pm2 start "npm run start" --name="backend"
-    - run: pm2 serve build/ 3000 --name "rontend" --spa
+
+    - run: |
+          cd ../frontend
+          pm2 serve build/ 3000 --name "frontend" --spa
 
     - run: pm2 restart all
