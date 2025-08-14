@@ -49,6 +49,7 @@ jobs:
         npm install --global yarn
         yarn --version
         yarn install
+        pm2 delete all || true
 
     # Install dependencies for frontend
     - name: Install Frontend Dependencies
@@ -60,13 +61,13 @@ jobs:
         yarn run build
     
     # Run backend tests
-    # - name: Run Backend Tests
-    #   env:
-    #     MONGO_URI: ${{ secrets.MONGO_URI }}
-    #     JWT_SECRET: ${{ secrets.JWT_SECRET }}
-    #     PORT: ${{ secrets.PORT }}
-    #   working-directory: ./backend
-    #   run: npm test
+    - name: Run Backend Tests
+      env:
+        MONGO_URI: ${{ secrets.MONGO_URI }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
+        PORT: ${{ secrets.PORT }}
+      working-directory: ./backend
+      run: npm test
 
     - run: npm ci
 
@@ -74,7 +75,7 @@ jobs:
         cd ./backend
         touch .env
         echo "${{ secrets.PROD }}" > .env
-        
+
     - run: pm2 list || true  # Check if any processes are running (won't fail)
 
     - run: pm2 start "npm run start" --name="backend"
@@ -82,3 +83,6 @@ jobs:
     - run: pm2 serve build/ 3000 --name "frontend" --spa
 
     - run: pm2 restart all
+
+
+    
