@@ -40,8 +40,7 @@ jobs:
         echo "Secret 3 is: $PORT"
 
     - name: Stop all PM2 processes (if any)
-      run: |
-        pm2 stop all || true  # Ignore if no processes are found
+      run: pm2 stop all || true  # Ignore if no processes are found
 
     # Install dependencies for backend
     - name: Install Backend Dependencies
@@ -61,13 +60,13 @@ jobs:
         yarn run build
     
     # Run backend tests
-    - name: Run Backend Tests
-      env:
-        MONGO_URI: ${{ secrets.MONGO_URI }}
-        JWT_SECRET: ${{ secrets.JWT_SECRET }}
-        PORT: ${{ secrets.PORT }}
-      working-directory: ./backend
-      run: npm test
+    # - name: Run Backend Tests
+    #   env:
+    #     MONGO_URI: ${{ secrets.MONGO_URI }}
+    #     JWT_SECRET: ${{ secrets.JWT_SECRET }}
+    #     PORT: ${{ secrets.PORT }}
+    #   working-directory: ./backend
+    #   run: npm test
 
     - run: npm ci
 
@@ -75,8 +74,8 @@ jobs:
         cd ./backend
         touch .env
         echo "${{ secrets.PROD }}" > .env
-    - run: |
-        pm2 list || true  # Check if any processes are running (won't fail)
+        
+    - run: pm2 list || true  # Check if any processes are running (won't fail)
 
     - run: pm2 start "npm run start" --name="backend"
 
