@@ -313,8 +313,8 @@ describe('Task controller unit tests', function () {
   
     it('should return 500 if an error occurs', async () => {
       const req = {
-        user: { id: new mongoose.Types.ObjectId() },
-        body: { title: 'New Task', description: 'Task description', startingPrice: '100', deadline: '2025-12-31' }
+        user: { userId },
+        body: { taskId, offeredAmount }
       };
   
       // Keep stubs so no real DB is touched
@@ -324,7 +324,7 @@ describe('Task controller unit tests', function () {
       const res = mockRes();
       await addBid(req, res);
   
-      //expect(res.status.calledWith(500)).to.be.true;
+      expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledWithMatch({ message: 'DB Error' })).to.be.true;
     });
   });
