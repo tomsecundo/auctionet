@@ -1,94 +1,45 @@
+Assignment: Build & Deploy a MERN Real-Time Auction with Secure Payments (CI/CD-Ready)
 
-**Assessment 1 (Total Marks **20**)**
+Description
 
-Assignment: **Software requirements analysis and design (**Full-Stack CRUD Application Development with DevOps Practices**)**
+Auctionet is a modern, easy-to-use online auction platform designed for people who want to buy and sell valuable items in a secure, exciting, and transparent way. Sellers can post items with detailed descriptions, images, and a starting price, while buyers can place bids in real time until the auction’s closing date. Just like a traditional auction, the highest bidder at the close wins the item — no fuss, no hidden tricks.
 
+Payments are processed through a secure, integrated payment gateway supporting debit and credit cards, ensuring a smooth and safe transaction for both parties. With its sleek interface, mobile-friendly design, and reliable bidding system, Auctionet transforms the age-old thrill of auctions into a digital experience accessible anytime, anywhere. Whether it’s rare collectibles, luxury goods, or one-of-a-kind finds, Auctionet brings the excitement of winning right to your fingertips.
 
----
+Objective
 
-**Objective**
+Deliver a production-ready MERN (MongoDB, Express, React, Node.js) application that supports listing items, real-time-style bidding logic, user authentication, and secure payment handoff, with a robust CI/CD pipeline, tests, and documentation.
 
-You have been provided with a starter project that includes user authentication using Node.js, React.js, and MongoDB. Your task is to extend this application by implementing CRUD (Create, Read, Update, Delete) operations of different featuresfor a real-world application of your choice, while following industry best practices such as: 
+Features
 
-* **Project Management with JIRA**
-* **Requirement Diagram**, **Block Definition Diagram (**BDD), Parametric Diagram using**SysML**
-* **Version Control using GitHub**
-* **CI/CD Integration for Automated Deployment**
+List Auctions (title, description, images, starting price, closing date)
 
----
+Bidding with server-side validation (must exceed highest bid)
 
-**GitHub link of the starter project: **[https://github.com/rajuiit/sdlapps](https://github.com/rajuiit/sdlapps)
+Winners determined at closing time (highest bid wins)
 
----
+Secure Payments via integrated gateway (debit/credit cards)
 
-**Requirement**
+Authentication & Authorization (JWT-based)
 
-1. **Choose a Real-World Application**
+Responsive UI (mobile-friendly)
 
-We will send you an email to choose a Real-World project. If you face any difficulties in choosing your project, please contact your tutor.
+Clean REST API with predictable responses
 
-2. **Project Design with SysML and Project Management with JIRA**
+Tech Stack
 
-* Draw a requirements diagram, Block Definition Diagram (BDD), and Parametric Diagram based on your project (Connect all functional features).
-* Create a JIRA project and define:
-  * Epic
-  * User Stories (features required in your app)
-  * Child issues or Subtasks (breaking down development work)
-  * Sprint Implementation (organizing work into milestones)
-* Provide your JIRA board URL in the project README.
+Frontend: React (Vite/CRA), optional Tailwind CSS
 
-**3. Backend Development (Node.js + Express + MongoDB)**
+Backend: Node.js, Express
 
-* Set up and configure the MongoDB database connection.
-* Implement various backend functions for handling application data.Ensure that all functions are compatible with an Application Programming Interface (API) structure(Follow existing patterns used in the Task Manager App where applicable).
-* Implement CRUD operations forcreating, reading, updating, and deleting records for each functionality.
+Database: MongoDB with Mongoose
 
-4. **Frontend Development (React.js)**
+Auth: JWT
 
-* Create a user-friendly interface to interact with your API endpoint (Follow task manager app).
-* Implement different forms for adding, updating, and deleting records.
-* Display data using tables, cards, or lists (Follow how we showed data in task manager app, try to implement better visualization for the frontend.)
+Payments: Pluggable gateway (e.g., Stripe)
 
-**5. Authentication & Authorization** (Prerequisite Task)
+Testing: Mocha, Chai, Sinon
 
-* Ensure only authenticated users can access and perform CRUD operations. (Already developed in your project)
-* Use JWT (JSON Web Tokens) for user authentication (Use the task manager one from .env file).
+CI/CD: GitHub Actions
 
-**6. GitHub Version Control & Branching Strategy**
-
-* Use GitHub for version control and maintain:
-* main branch (stable production-ready code)
-* Feature branches for each new feature
-* Follow proper commit messages and pull request (PR) for code reviews.
-
-**7. CI/CD Pipeline Setup**
-
-* Implement a CI/CD pipeline using GitHub Actions to:
-* Automatically run tests on every commit/pull request (Optional).
-* Deploy the backend to AWS. (Use the QUT provided EC2 instance)
-* Deploy the frontend to AWS.
-* Document your CI/CD workflow in the README.
-
----
-
-**Submission Requirements**
-
-**A report **contains** the following (Provide screenshots as evidence for each implemented task. **The screenshot should **contain** your username** from JIRA, GITHUB, and AWS**):
-
-* **JIRA Project **Management**(Provide screenshots in the **report o**f at least two epics**, **including user story, sub**t**a**sks**. **Please **don’t** provide **the **U**ser Authentication** epic**.**Provide your JIRA Board URL in the report and README file as well.**Through the JIRA Board, we will systematically review the completeness of the project features, organised under Epics, User Stories, and Sub-tasks.**
-* Requirement diagram, Block Definition Diagram (BDD), Parametric Diagram (Using project features).
-* **GitHub Repository (backend/ and frontend/)** link. We will **review** your code implementation, which you followed from the task description. We will also **review** your commits, main branch, feature branches, and pull requests. **(**Please note that the authorisation** (Log In, Registration)** is the prerequisite for backend development.**)**
-* CI/CD pipeline details step by step screenshot.
-* README.md with:
-* Project setup instructions.
-* Public URL of your project.
-* Provide a project-specific username and password if we need to access your dashboard.
-
----
-
-**Assessment Criteria:**
-
-* Clarity and completeness of Jira board and SysML models.
-* Adherence to Git best practices and practical contributions.
-* Successful implementation, deploymentand CI/CD pipeline.
-* Problem-solving skills and the ability to go beyond basic requirements.
+Runtime: Node.js ≥ 18 (CI can use Node 22)
