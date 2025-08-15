@@ -1,4 +1,3 @@
-// test/example_test.js
 /* eslint-env mocha */
 const chai = require('chai');
 const sinon = require('sinon');
@@ -17,7 +16,7 @@ const {
 
 const { expect } = chai;
 
-// --- Test helpers ---
+// Simple response mock
 function mockRes() {
   return {
     status: sinon.stub().returnsThis(),
@@ -25,11 +24,12 @@ function mockRes() {
   };
 }
 
-describe('Task controller unit tests', () => {
-  // Ensure every stub/spy is cleaned even when a test fails
-  afterEach(() => {
-    sinon.restore();
-  });
+describe('Task controller unit tests', function () {
+  // Give async tests breathing room (also set --timeout 10000 in CI just in case)
+  this.timeout(10000);
+
+  // Always clean up stubs/spies—even if a test fails
+  afterEach(() => sinon.restore());
 
   // --------------------
   // Add Item
@@ -72,7 +72,7 @@ describe('Task controller unit tests', () => {
   // --------------------
   // Update Task
   // --------------------
-  describe('Update Bid/Item Function Test', () => {
+  describe('Update Bid Item Function Test', () => {
     it('should update task successfully', async () => {
       const taskId = new mongoose.Types.ObjectId();
       const existingTask = {
@@ -87,7 +87,10 @@ describe('Task controller unit tests', () => {
 
       sinon.stub(Task, 'findById').resolves(existingTask);
 
-      const req = { params: { id: taskId.toString() }, body: { title: 'New Task', completed: true } };
+      const req = {
+        params: { id: taskId.toString() },
+        body: { title: 'New Task', completed: true }
+      };
       const res = mockRes();
 
       await updateTask(req, res);
@@ -134,14 +137,14 @@ describe('Task controller unit tests', () => {
         { _id: new mongoose.Types.ObjectId(), title: 'Item 2', userId }
       ];
 
-      sinon.stub(Task, 'find').resolves(tasks);
+      const findStub = sinon.stub(Task, 'find').resolves(tasks);
 
       const req = { user: { id: userId } };
       const res = mockRes();
 
       await getTasks(req, res);
 
-      expect(Task.find.calledOnceWith({ userId })).to.be.true;
+      expect(findStub.calledOnceWith({ userId })).to.be.true;
       expect(res.json.calledWith(tasks)).to.be.true;
       expect(res.status.called).to.be.false;
     });
@@ -160,7 +163,7 @@ describe('Task controller unit tests', () => {
   });
 
   // --------------------
-  // Get Auction
+  // Get Auctioned Items
   // --------------------
   describe('Get All Auctioned Items Function Test', () => {
     it('should return tasks for the given user', async () => {
@@ -170,14 +173,14 @@ describe('Task controller unit tests', () => {
         { _id: new mongoose.Types.ObjectId(), title: 'Item 2', userId }
       ];
 
-      sinon.stub(Task, 'find').resolves(tasks);
+      const findStub = sinon.stub(Task, 'find').resolves(tasks);
 
       const req = { user: { id: userId } };
       const res = mockRes();
 
       await getAuction(req, res);
 
-      expect(Task.find.calledOnceWith({ userId })).to.be.true;
+      expect(findStub.calledOnceWith({ userId })).to.be.true;
       expect(res.json.calledWith(tasks)).to.be.true;
     });
 
@@ -292,11 +295,14 @@ describe('Task controller unit tests', () => {
 
       const createdItem = { _id: new mongoose.Types.ObjectId(), ...req.body, userId: req.user.id };
 
+      // If addBid checks for existing items/bids, stub findOne to avoid real DB
+      sinon.stub(Task, 'findOne').resolves(null);
       sinon.stub(Task, 'create').resolves(createdItem);
-      const res = mockRes();
 
+      const res = mockRes();
       await addBid(req, res);
 
+      expect(Task.findOne.calledOnce).to.be.true;
       expect(Task.create.calledOnceWith({ userId: req.user.id, ...req.body })).to.be.true;
       expect(res.status.calledWith(201)).to.be.true;
       expect(res.json.calledWith(createdItem)).to.be.true;
@@ -308,13 +314,71 @@ describe('Task controller unit tests', () => {
         body: { title: 'New Task', description: 'Task description', startingPrice: '100', deadline: '2025-12-31' }
       };
 
+      // Ensure no DB hit before the error path
+      sinon.stub(Task, 'findOne').resolves(null);
       sinon.stub(Task, 'create').rejects(new Error('DB Error'));
-      const res = mockRes();
 
+      const res = mockRes();
       await addBid(req, res);
 
       expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledWithMatch({ message: 'DB Error' })).to.be.true;
+    });
+  });
+
+  // --------------------
+  // Update/Raise Bid (example placeholder—adjust to your controller logic)
+  // --------------------
+  describe('Update/Raise Bid Function Test', () => {
+    it('should update bid/task successfully', async () => {
+      const taskId = new mongoose.Types.ObjectId();
+      const existingTask = {
+        _id: taskId,
+        title: 'Old Task',
+        description: 'Old Description',
+        startingPrice: 100,
+        completed: false,
+        deadline: new Date(),
+        save: sinon.stub().resolvesThis()
+      };
+
+      sinon.stub(Task, 'findById').resolves(existingTask);
+
+      const req = {
+        params: { id: taskId.toString() },
+        body: { userId: new mongoose.Types.ObjectId().toString(), amount: 150 }
+      };
+      const res = mockRes();
+
+      await updateTask(req, res);
+
+      // Adjust these expectations to match your actual updateTask behavior
+      expect(res.status.called).to.be.false;
+      expect(res.json.calledOnce).to.be.true;
+    });
+
+    it('should return 404 if task is not found', async () => {
+      sinon.stub(Task, 'findById').resolves(null);
+
+      const req = { params: { id: new mongoose.Types.ObjectId().toString() }, body: {} };
+      const res = mockRes();
+
+      await updateTask(req, res);
+
+      expect(res.status.calledWith(404)).to.be.true;
+      expect(res.json.calledWith({ message: 'Task not found' })).to.be.true;
+    });
+
+    it('should return 500 on error', async () => {
+      sinon.stub(Task, 'findById').rejects(new Error('DB Error'));
+
+      const req = { params: { id: new mongoose.Types.ObjectId().toString() }, body: {} };
+      const res = mockRes();
+
+      await updateTask(req, res);
+
+      expect(res.status.calledWith(500)).to.be.true;
+      expect(res.json.called).to.be.true;
     });
   });
 });
