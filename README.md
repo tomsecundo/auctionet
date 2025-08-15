@@ -52,11 +52,11 @@ Deliver a production-ready MERN (MongoDB, Express, React, Node.js) application t
   + Protect routes with JWT middleware (sets req.user.id).
 
 3. Frontend (React)
-   - Build views for:
-     - Auction Feed (browse others’ items)
-     * My Items (manage listings)
-     + Item Create/Edit forms
-     - Bidding UI with feedback on bid validity
+  - Build views for:
+    - Auction Feed (browse others’ items)
+    * My Items (manage listings)
+    + Item Create/Edit forms
+    - Bidding UI with feedback on bid validity
 
   * Handle auth flows and token storage securely.
   + Ensure responsive, accessible design.
@@ -66,20 +66,15 @@ Deliver a production-ready MERN (MongoDB, Express, React, Node.js) application t
    * Store only non-sensitive references (e.g., payment intent IDs).
    + Verify webhooks server-side where applicable.
 
-Git & Branching
+5. Git & Branching
 
-Use feature branches and meaningful commit messages.
+   - Use feature branches and meaningful commit messages.
+   * Protect main branch; open Pull Requests for code review.
 
-Protect main branch; open Pull Requests for code review.
+6. CI/CD Pipeline
 
-CI/CD Pipeline
-
-GitHub Actions workflow to:
-
-Install dependencies and run tests (backend unit tests with Sinon stubs).
-
-Optionally lint.
-
-Deploy backend (e.g., AWS EC2) and frontend (e.g., S3/CloudFront or EC2).
-
-Document secrets/variables used in CI (without exposing values).
+   - GitHub Actions workflow to:
+       - Install dependencies and run tests (backend unit tests with Sinon stubs).
+       * Optionally lint.
+       + Deploy backend (e.g., AWS EC2) and frontend (e.g., S3/CloudFront or EC2).
+   * Document secrets/variables used in CI (without exposing values).
