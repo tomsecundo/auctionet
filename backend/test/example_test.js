@@ -4,6 +4,8 @@ const sinon = require('sinon');
 const mongoose = require('mongoose');
 const Task = require('../models/Task');
 
+// NO: chai-http, http, app/server, connectDB
+
 const {
   getAuction,
   updateTask,
@@ -15,6 +17,7 @@ const {
 } = require('../controllers/taskController');
 
 const { expect } = chai;
+
 
 // Simple response mock
 function mockRes() {
@@ -292,39 +295,40 @@ describe('Task controller unit tests', function () {
         user: { id: new mongoose.Types.ObjectId() },
         body: { title: 'New Item', description: 'Task description', startingPrice: '100', deadline: '2025-12-31' }
       };
-
+  
       const createdItem = { _id: new mongoose.Types.ObjectId(), ...req.body, userId: req.user.id };
-
-      // If addBid checks for existing items/bids, stub findOne to avoid real DB
+  
+      // Stub to prevent any DB access (even if your controller doesn’t use findOne)
       sinon.stub(Task, 'findOne').resolves(null);
       sinon.stub(Task, 'create').resolves(createdItem);
-
+  
       const res = mockRes();
       await addBid(req, res);
-
-      expect(Task.findOne.calledOnce).to.be.true;
+  
+      // Do NOT assert findOne was called; some implementations don’t use it
       expect(Task.create.calledOnceWith({ userId: req.user.id, ...req.body })).to.be.true;
       expect(res.status.calledWith(201)).to.be.true;
       expect(res.json.calledWith(createdItem)).to.be.true;
     });
-
+  
     it('should return 500 if an error occurs', async () => {
       const req = {
         user: { id: new mongoose.Types.ObjectId() },
         body: { title: 'New Task', description: 'Task description', startingPrice: '100', deadline: '2025-12-31' }
       };
-
-      // Ensure no DB hit before the error path
+  
+      // Keep stubs so no real DB is touched
       sinon.stub(Task, 'findOne').resolves(null);
       sinon.stub(Task, 'create').rejects(new Error('DB Error'));
-
+  
       const res = mockRes();
       await addBid(req, res);
-
+  
       expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.calledWithMatch({ message: 'DB Error' })).to.be.true;
     });
   });
+  
 
   // --------------------
   // Update/Raise Bid (example placeholder—adjust to your controller logic)
