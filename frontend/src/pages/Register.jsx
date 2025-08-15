@@ -13,7 +13,7 @@ const Register = () => {
     e.preventDefault();
     try {
       await axiosInstance.post('/api/auth/register', formData);
-      setModalMessage("Welcome to Auctionet! Let the bidding begin!");
+      setModalMessage("Welcome to Auctionet! Let the bidding begin.");
       setModalOpen(true);
       navigate('/login');
     } catch (error) {
