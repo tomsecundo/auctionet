@@ -292,15 +292,15 @@ describe('Task controller unit tests', function () {
   describe('Place Bid Function Test', () => {
     it('should create a bid successfully', async () => {
       const req = {
-        user: { id: new mongoose.Types.ObjectId() },
-        body: { title: 'New Item', description: 'Task description', startingPrice: '100', deadline: '2025-12-31' }
+        user: { userId },
+        body: { taskId, offeredAmount }
       };
   
-      const createdItem = { _id: new mongoose.Types.ObjectId(), ...req.body, userId: req.user.id };
+      const createdItem = { bids: {userId : offeredAmount} };
   
       // Stub to prevent any DB access (even if your controller doesn’t use findOne)
       sinon.stub(Task, 'findOne').resolves(null);
-      sinon.stub(Task, 'create').resolves(createdItem);
+      sinon.stub(Task, 'save').resolves(createdItem);
   
       const res = mockRes();
       await addBid(req, res);
@@ -350,7 +350,7 @@ describe('Task controller unit tests', function () {
 
       const req = {
         params: { id: taskId.toString() },
-        body: { userId: new mongoose.Types.ObjectId().toString(), amount: 150 }
+        body: { userId: new mongoose.Types.ObjectId().toString(), bids: { userId: "150"} }
       };
       const res = mockRes();
 
@@ -381,7 +381,7 @@ describe('Task controller unit tests', function () {
 
       await updateTask(req, res);
 
-      //expect(res.status.calledWith(500)).to.be.true;
+      expect(res.status.calledWith(500)).to.be.true;
       expect(res.json.called).to.be.true;
     });
   });
